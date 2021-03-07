@@ -10,7 +10,7 @@ db.once('open',()=>{
     const fruitSchema = new mongoose.Schema({
         name: {
             type: String,
-            required: [true, "Please check your data entry, no name specified!"]
+            // required: [true, "Please check your data entry, no name specified!"]
         },
         rating: {
             type: Number,
@@ -20,9 +20,10 @@ db.once('open',()=>{
         review: String
     });
     const Fruit = mongoose.model("Fruit", fruitSchema);
-    const fruit = new Fruit({
+    const strawberry = new Fruit({
+        name: "Strawberry",
         rating: 10,
-        review:"Peaches are so yummy"
+        review: "Best fruit in the spring"
     });
     // const res = Fruit.deleteOne({review: "Peaches are so yummy"},(error, mongooseDeleteResult)=>{
     //     if(error){
@@ -32,18 +33,23 @@ db.once('open',()=>{
     //     }
     // });
 
-    fruit.save();
+    // Fruit.updateOne({_id: "6044d99156fd554cf49652d2"}, {name: "Peach"}, (error, result)=>{
+    //     if(error){
+    //         console.log(error);
+    //     }else{
+    //         console.log(result);
+    //     }
+    // });
+
+    strawberry.save();
 
     // people section
     const personSchema = new mongoose.Schema({
         name: String,
-        age: Number
+        age: Number,
+        favouriteFruit: fruitSchema
     });
     const Person = mongoose.model("Person", personSchema);
-    const person = new Person({
-        name: "John",
-        age: 37
-    });
     // person.save();
 
     // read section
@@ -54,6 +60,17 @@ db.once('open',()=>{
             mongoose.connection.close();
             fruits.forEach((fruit)=>{
                 console.log(fruit.name);
+            });
+        }
+    });
+
+    Person.find({},(error, people)=>{
+        if(error){
+            console.log(error);
+        }else{
+            mongoose.connection.close();
+            people.forEach((person)=>{
+                console.log(person.name);
             });
         }
     });
