@@ -8,39 +8,31 @@ db.once('open',()=>{
     // create section
     // fruit section
     const fruitSchema = new mongoose.Schema({
-        name: String,
-        rating: Number,
+        name: {
+            type: String,
+            required: [true, "Please check your data entry, no name specified!"]
+        },
+        rating: {
+            type: Number,
+            min: 1,
+            max: 10
+        },
         review: String
     });
     const Fruit = mongoose.model("Fruit", fruitSchema);
     const fruit = new Fruit({
-        name: "Apple",
-        rating: 7,
-        review:"pretty solid as a fruit"
-    });
-    const kiwi = new Fruit({
-        name: "Kiwi",
         rating: 10,
-        review: "The best fruit"
+        review:"Peaches are so yummy"
     });
-    const orange = new Fruit({
-        name: "Orange",
-        rating: 4,
-        review: "Too sour for me"
-    });
-    const banana = new Fruit({
-        name: "Banana",
-        rating: 3,
-        review: "Weird texture"
-    });
-    // Fruit.insertMany([kiwi, orange, banana], (error)=>{
+    // const res = Fruit.deleteOne({review: "Peaches are so yummy"},(error, mongooseDeleteResult)=>{
     //     if(error){
     //         console.log(error);
     //     }else{
-    //         console.log("Insert successfully!");
+    //         console.log(mongooseDeleteResult);
     //     }
     // });
-    // fruit.save();
+
+    fruit.save();
 
     // people section
     const personSchema = new mongoose.Schema({
